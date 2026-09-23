@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dush Tech Systems – Professional Business Website</title>
+
+    <!-- ===== TAILWIND CSS CDN ===== -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ===== LUCIDE ICONS CDN ===== -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- ===== TAILWIND CONFIG — Custom Color Tokens ===== -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: {
+                900: '#0a1628',
+                800: '#0d1b3e',
+                700: '#1a3a6b',
+              },
+              accent: '#1e6fdb',
+              'accent-dark': '#1859b0',
+              'light-blue': '#e8f0fe',
+              'light-gray': '#f5f7fa',
+              'dark-text': '#2d3748',
+              'muted-text': '#718096',
+              'border-blue': '#d0dff5',
+            },
+            fontFamily: {
+              inter: ['Inter', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- ===== GOOGLE FONTS — Inter ===== -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+      /* ===== BASE RESET & GLOBAL STYLES ===== */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+      body { font-family: 'Inter', system-ui, sans-serif; color: #2d3748; }
+
+      /* ===== HERO GEOMETRIC PATTERN OVERLAY ===== */
+      .hero-pattern {
+        position: relative;
+        background: linear-gradient(135deg, #0d1b3e 0%, #1a3a6b 100%);
+      }
+      .hero-pattern::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(30deg, rgba(30,111,219,0.06) 1px, transparent 1px),
+          linear-gradient(150deg, rgba(30,111,219,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(30,111,219,0.04) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(30,111,219,0.04) 1px, transparent 1px);
+        background-size: 60px 100px, 60px 100px, 40px 40px, 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .hero-pattern > * { position: relative; z-index: 1; }
+
+      /* ===== NAVIGATION SHADOW ON SCROLL ===== */
+      .nav-scrolled {
+        box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+      }
+
+      /* ===== ACTIVE NAV LINK ===== */
+      .nav-link-active {
+        color: #1e6fdb !important;
+      }
+      .nav-link {
+        transition: color 0.2s ease;
+        position: relative;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #1e6fdb;
+        transition: width 0.2s ease;
+      }
+      .nav-link:hover::after,
+      .nav-link-active::after {
+        width: 100%;
+      }
+
+      /* ===== SERVICE CARD HOVER EFFECT ===== */
+      .service-card {
+        border-left: 4px solid #1e6fdb;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 32px rgba(13,27,62,0.12);
+      }
+
+      /* ===== FADE-IN ANIMATION ON SCROLL ===== */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== CTA BUTTON STYLES ===== */
+      .btn-primary {
+        background: #1e6fdb;
+        color: #fff;
+        border: 2px solid #1e6fdb;
+        transition: background 0.2s ease, transform 0.15s ease;
+      }
+      .btn-primary:hover {
+        background: #1859b0;
+        border-color: #1859b0;
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 2px solid #fff;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+      }
+      .btn-outline:hover {
+        background: #1a3a6b;
+        transform: translateY(-1px);
+      }
+
+      /* ===== CONTACT FORM INPUT FOCUS ===== */
+      .form-input {
+        border: 1.5px solid #d0dff5;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .form-input:focus {
+        outline: none;
+        border-color: #1e6fdb;
+        box-shadow: 0 0 0 3px rgba(30,111,219,0.12);
+      }
+
+      /* ===== SCROLL DOWN ARROW BOUNCE ===== */
+      @keyframes bounce-down {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(10px); }
+      }
+      .bounce-arrow {
+        animation: bounce-down 2s infinite ease-in-out;
+      }
+
+      /* ===== INDUSTRY PILLS HORIZONTAL SCROLL ===== */
+      .pill-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #d0dff5 transparent;
+      }
+      .pill-scroll::-webkit-scrollbar {
+        height: 6px;
+      }
+      .pill-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .pill-scroll::-webkit-scrollbar-thumb {
+        background: #d0dff5;
+        border-radius: 3px;
+      }
+
+      /* ===== STAT NUMBER STYLING ===== */
+      .stat-number {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ===== WHY US SECTION GRADIENT ===== */
+      .why-us-bg {
+        background: linear-gradient(135deg, #0d1b3e 0%, #1a3a6b 100%);
+      }
+
+      /* ===== INDUSTRY PILL CARD ===== */
+      .industry-pill {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .industry-pill:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13,27,62,0.1);
+      }
+    </style>
+  </head>
+
+  <body data-id="0" class="font-inter bg-white">
+    <!-- ===== APP ICON ===== -->
+    <app-icon data-id="1" hidden data-icon="server" data-palette="Blue"></app-icon>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <header data-id="2" id="navbar-h7k2" class="fixed top-0 left-0 right-0 z-[1000] bg-navy-800 transition-shadow duration-300" style="height:70px;">
+      <div data-id="3" class="max-w-7xl mx-auto h-full flex items-center justify-between px-4 md:px-6 lg:px-8">
+        <!-- Logo -->
+        <a data-id="4" href="#home" id="logo-t9r1" class="flex items-center gap-0 text-[22px] font-bold select-none">
+          <span data-id="5" class="text-white">Dush</span><span data-id="6" class="text-accent ml-1">Tech Systems</span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav data-id="7" id="desktop-nav-m3p5" class="hidden md:flex items-center gap-8">
+          <a data-id="8" href="#home" class="nav-link text-white text-[15px] font-medium">Home</a>
+          <a data-id="9" href="#services" class="nav-link text-white text-[15px] font-medium">Services</a>
+          <a data-id="10" href="#about" class="nav-link text-white text-[15px] font-medium">About</a>
+          <a data-id="11" href="#whyus" class="nav-link text-white text-[15px] font-medium">Why Us</a>
+          <a data-id="12" href="#contact" class="nav-link text-white text-[15px] font-medium">Contact</a>
+        </nav>
+
+        <!-- Mobile Hamburger Button -->
+        <button data-id="13" id="mobile-menu-btn-k4v8" class="md:hidden p-2 text-white min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Open menu">
+          <i data-id="14" data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Navigation Menu (hidden by default) -->
+      <nav data-id="15" id="mobile-menu-r2w6" class="hidden fixed inset-0 bg-navy-800 z-[1001] flex flex-col items-center justify-center gap-6">
+        <button data-id="16" id="mobile-menu-close-j5n3" class="absolute top-4 right-4 p-2 text-white min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Close menu">
+          <i data-id="17" data-lucide="x" class="w-7 h-7"></i>
+        </button>
+        <a data-id="18" href="#home" class="mobile-nav-link text-white text-xl font-semibold">Home</a>
+        <a data-id="19" href="#services" class="mobile-nav-link text-white text-xl font-semibold">Services</a>
+        <a data-id="20" href="#about" class="mobile-nav-link text-white text-xl font-semibold">About</a>
+        <a data-id="21" href="#whyus" class="mobile-nav-link text-white text-xl font-semibold">Why Us</a>
+        <a data-id="22" href="#contact" class="mobile-nav-link text-white text-xl font-semibold">Contact</a>
+      </nav>
+    </header>
+
+    <main data-id="23">
+      <!-- ===== HERO SECTION ===== -->
+      <section data-id="24" id="home" class="hero-pattern min-h-[92vh] flex flex-col items-center justify-center text-center px-4 md:px-6 pt-[70px]">
+        <!-- Overline Tag -->
+        <p data-id="25" id="hero-overline-a3b1" class="text-accent text-[13px] font-semibold tracking-[3px] uppercase mb-5 fade-in-up">
+          Enterprise Technology Solutions
+        </p>
+
+        <!-- Main Headline -->
+        <h1 data-id="26" id="hero-heading-f8g2" class="text-white text-3xl md:text-[44px] lg:text-[54px] font-bold leading-tight mb-6 fade-in-up">
+          Empowering Businesses<br data-id="27">Through Smart Technology
+        </h1>
+
+        <!-- Subtitle -->
+        <p data-id="28" id="hero-sub-d4e5" class="text-blue-200/80 text-base md:text-lg max-w-[620px] mb-10 fade-in-up leading-relaxed">
+          Dush Tech Systems delivers end-to-end IT infrastructure, networking, cloud, and data center solutions tailored to mission-critical business environments.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div data-id="29" id="hero-ctas-z9x7" class="flex flex-col sm:flex-row gap-4 mb-16 fade-in-up">
+          <a data-id="30" href="#services" class="btn-primary px-8 py-4 rounded text-base font-semibold inline-block min-h-[44px] text-center">
+            Explore Our Services
+          </a>
+          <a data-id="31" href="#contact" class="btn-outline px-8 py-4 rounded text-base font-semibold inline-block min-h-[44px] text-center">
+            Contact Us
+          </a>
+        </div>
+
+        <!-- Scroll Down Arrow Indicator -->
+        <div data-id="32" id="scroll-arrow-q1w2" class="bounce-arrow text-white/40 mb-8">
+          <i data-id="33" data-lucide="chevron-down" class="w-7 h-7"></i>
+        </div>
+      </section>
+
+      <!-- ===== SERVICES SECTION ===== -->
+      <section data-id="34" id="services" class="bg-light-gray py-16 md:py-24 px-4 md:px-6">
+        <div data-id="35" class="max-w-7xl mx-auto">
+          <!-- Section Heading -->
+          <div data-id="36" class="text-center mb-14 fade-in-up">
+            <h2 data-id="37" id="services-heading-b2c3" class="text-navy-800 text-3xl md:text-[36px] font-bold mb-3">Our Services</h2>
+            <p data-id="38" id="services-sub-e5f6" class="text-muted-text text-base max-w-xl mx-auto">Comprehensive technology solutions for modern enterprises</p>
+          </div>
+
+          <!-- Services Grid — 3 cols desktop, 2 tablet, 1 mobile -->
+          <div data-id="39" id="services-grid-g7h8" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+            <!-- Card 1: Data Center Solutions -->
+            <div data-id="40" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="41" class="text-3xl mb-4">🖥️</div>
+              <h3 data-id="42" class="text-navy-800 text-lg font-bold mb-2">Data Center Solutions</h3>
+              <p data-id="43" class="text-muted-text text-sm leading-relaxed">Design, deployment and management of mission-critical data center infrastructure including rack &amp; stack, cabling, and hardware lifecycle management.</p>
+            </div>
+
+            <!-- Card 2: Enterprise Networking -->
+            <div data-id="44" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="45" class="text-3xl mb-4">🌐</div>
+              <h3 data-id="46" class="text-navy-800 text-lg font-bold mb-2">Enterprise Networking</h3>
+              <p data-id="47" class="text-muted-text text-sm leading-relaxed">LAN/WAN, SD-WAN, MPLS, and Ethernet solutions engineered for high availability, security, and optimal performance.</p>
+            </div>
+
+            <!-- Card 3: Cloud & Virtualization -->
+            <div data-id="48" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="49" class="text-3xl mb-4">☁️</div>
+              <h3 data-id="50" class="text-navy-800 text-lg font-bold mb-2">Cloud &amp; Virtualization</h3>
+              <p data-id="51" class="text-muted-text text-sm leading-relaxed">Seamless migration and management of AWS, Azure, and Google Cloud environments with hybrid infrastructure support.</p>
+            </div>
+
+            <!-- Card 4: Cybersecurity Services -->
+            <div data-id="52" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="53" class="text-3xl mb-4">🔒</div>
+              <h3 data-id="54" class="text-navy-800 text-lg font-bold mb-2">Cybersecurity Services</h3>
+              <p data-id="55" class="text-muted-text text-sm leading-relaxed">End-to-end security solutions including firewall management, VPN, compliance, and threat monitoring using Cisco, Fortinet, and leading tools.</p>
+            </div>
+
+            <!-- Card 5: Unified Communications -->
+            <div data-id="56" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="57" class="text-3xl mb-4">📞</div>
+              <h3 data-id="58" class="text-navy-800 text-lg font-bold mb-2">Unified Communications</h3>
+              <p data-id="59" class="text-muted-text text-sm leading-relaxed">VoIP, SIP, and collaboration platforms including Genesys Cloud CX and enterprise telephony systems.</p>
+            </div>
+
+            <!-- Card 6: Managed IT Services -->
+            <div data-id="60" class="service-card bg-white rounded-lg p-6 shadow-sm fade-in-up">
+              <div data-id="61" class="text-3xl mb-4">🛠️</div>
+              <h3 data-id="62" class="text-navy-800 text-lg font-bold mb-2">Managed IT Services</h3>
+              <p data-id="63" class="text-muted-text text-sm leading-relaxed">Proactive monitoring, helpdesk support, asset management, and SLA-governed IT operations for businesses of all sizes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ABOUT SECTION ===== -->
+      <section data-id="64" id="about" class="bg-white py-16 md:py-24 px-4 md:px-6">
+        <div data-id="65" class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+
+          <!-- Left Column: Text Content -->
+          <div data-id="66" id="about-text-i9j0" class="flex-1 fade-in-up">
+            <p data-id="67" class="text-accent text-[13px] font-semibold tracking-[2px] uppercase mb-4">About Us</p>
+            <h2 data-id="68" class="text-navy-800 text-2xl md:text-[34px] font-bold leading-tight mb-6">Your Trusted Technology Partner in Dallas–Fort Worth</h2>
+            <p data-id="69" class="text-muted-text text-base leading-relaxed mb-5">
+              Dush Tech Systems is a Dallas–Fort Worth based enterprise technology firm with deep expertise in IT infrastructure, networking, cloud computing, and managed services. We serve businesses across the United States, helping organizations modernize their infrastructure, reduce operational costs, and scale with confidence.
+            </p>
+            <p data-id="70" class="text-muted-text text-base leading-relaxed mb-8">
+              With over two decades of combined experience across telecom, ICT, and data center environments, our team brings a disciplined, customer-first approach to every engagement — from initial consultation through deployment and post-delivery support.
+            </p>
+            <!-- Accent Divider -->
+            <div data-id="71" class="w-10 h-[3px] bg-accent rounded-full"></div>
+          </div>
+
+          <!-- Right Column: Stats Card -->
+          <div data-id="72" id="about-stats-k1l2" class="w-full lg:w-[400px] bg-navy-800 rounded-xl p-8 md:p-10 grid grid-cols-2 gap-8 fade-in-up flex-shrink-0">
+            <div data-id="73" class="text-center">
+              <p data-id="74" class="stat-number text-accent text-4xl md:text-[48px] font-bold leading-none mb-2">20+</p>
+              <p data-id="75" class="text-white/80 text-[13px]">Years of Experience</p>
+            </div>
+            <div data-id="76" class="text-center">
+              <p data-id="77" class="stat-number text-accent text-4xl md:text-[48px] font-bold leading-none mb-2">150+</p>
+              <p data-id="78" class="text-white/80 text-[13px]">Enterprise Clients Served</p>
+            </div>
+            <div data-id="79" class="text-center">
+              <p data-id="80" class="stat-number text-accent text-4xl md:text-[48px] font-bold leading-none mb-2">500+</p>
+              <p data-id="81" class="text-white/80 text-[13px]">Projects Delivered</p>
+            </div>
+            <div data-id="82" class="text-center">
+              <p data-id="83" class="stat-number text-accent text-4xl md:text-[48px] font-bold leading-none mb-2">99.9%</p>
+              <p data-id="84" class="text-white/80 text-[13px]">Uptime SLA Commitment</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== WHY CHOOSE US SECTION ===== -->
+      <section data-id="85" id="whyus" class="why-us-bg py-16 md:py-24 px-4 md:px-6">
+        <div data-id="86" class="max-w-7xl mx-auto text-center">
+          <!-- Section Heading -->
+          <div data-id="87" class="mb-14 fade-in-up">
+            <h2 data-id="88" id="whyus-heading-m3n4" class="text-white text-3xl md:text-[36px] font-bold mb-3">Why Choose Dush Tech Systems?</h2>
+            <p data-id="89" class="text-blue-200/60 text-base max-w-xl mx-auto">Trusted by enterprises for our discipline, expertise, and commitment to delivery excellence</p>
+          </div>
+
+          <!-- 4 Feature Blocks — row on desktop, grid on smaller -->
+          <div data-id="90" id="whyus-grid-o5p6" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+
+            <!-- Feature 1 -->
+            <div data-id="91" class="text-center fade-in-up">
+              <div data-id="92" class="text-[40px] mb-4">✅</div>
+              <h3 data-id="93" class="text-white text-lg font-bold mb-2">Expert-Led Delivery</h3>
+              <p data-id="94" class="text-blue-200/60 text-sm leading-relaxed">Certified engineers with hands-on experience in data center, networking, cloud, and security.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div data-id="95" class="text-center fade-in-up">
+              <div data-id="96" class="text-[40px] mb-4">⚡</div>
+              <h3 data-id="97" class="text-white text-lg font-bold mb-2">Rapid Response</h3>
+              <p data-id="98" class="text-blue-200/60 text-sm leading-relaxed">SLA-backed response times with dedicated account ownership from first contact through resolution.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div data-id="99" class="text-center fade-in-up">
+              <div data-id="100" class="text-[40px] mb-4">🔄</div>
+              <h3 data-id="101" class="text-white text-lg font-bold mb-2">End-to-End Ownership</h3>
+              <p data-id="102" class="text-blue-200/60 text-sm leading-relaxed">We serve as your Single Point of Contact from order release through delivery and post-deployment support.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div data-id="103" class="text-center fade-in-up">
+              <div data-id="104" class="text-[40px] mb-4">📊</div>
+              <h3 data-id="105" class="text-white text-lg font-bold mb-2">Data-Driven Operations</h3>
+              <p data-id="106" class="text-blue-200/60 text-sm leading-relaxed">Real-time dashboards, structured reporting, and proactive communication keep you informed at every stage.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== INDUSTRIES WE SERVE SECTION ===== -->
+      <section data-id="107" id="industries-s7t8" class="bg-light-blue py-16 md:py-20 px-4 md:px-6">
+        <div data-id="108" class="max-w-7xl mx-auto">
+          <!-- Section Heading -->
+          <h2 data-id="109" class="text-center text-navy-800 text-2xl md:text-[32px] font-bold mb-10 fade-in-up">Industries We Serve</h2>
+
+          <!-- Horizontal Scrollable Pills -->
+          <div data-id="110" class="pill-scroll flex gap-4 overflow-x-auto pb-4 justify-start lg:justify-center fade-in-up">
+            <div data-id="111" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="112" class="text-lg">🏢</span> Enterprise &amp; Corporate
+            </div>
+            <div data-id="113" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="114" class="text-lg">🏥</span> Healthcare
+            </div>
+            <div data-id="115" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="116" class="text-lg">🏦</span> Finance &amp; Banking
+            </div>
+            <div data-id="117" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="118" class="text-lg">🏭</span> Manufacturing
+            </div>
+            <div data-id="119" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="120" class="text-lg">📡</span> Telecommunications
+            </div>
+            <div data-id="121" class="industry-pill flex-shrink-0 bg-white border-2 border-accent text-navy-800 font-bold text-sm px-6 py-3 rounded-full flex items-center gap-2 cursor-default">
+              <span data-id="122" class="text-lg">🏗️</span> Data Centers &amp; Co-Location
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CONTACT SECTION ===== -->
+      <section data-id="123" id="contact" class="bg-light-gray py-16 md:py-24 px-4 md:px-6">
+        <div data-id="124" class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+          <!-- Left Column: Contact Info -->
+          <div data-id="125" id="contact-info-u9v0" class="flex-1 fade-in-up">
+            <h2 data-id="126" class="text-navy-800 text-2xl md:text-[34px] font-bold mb-5">Get In Touch</h2>
+            <p data-id="127" class="text-muted-text text-base leading-relaxed mb-8 max-w-md">
+              Ready to transform your technology infrastructure? Our team is here to help. Reach out and a specialist will respond within one business day.
+            </p>
+
+            <!-- Contact Details -->
+            <div data-id="128" class="space-y-5 mb-10">
+              <div data-id="129" class="flex items-center gap-4">
+                <div data-id="130" class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <i data-id="131" data-lucide="map-pin" class="w-5 h-5 text-accent"></i>
+                </div>
+                <span data-id="132" class="text-dark-text text-[15px]">Dallas–Fort Worth, TX</span>
+              </div>
+              <div data-id="133" class="flex items-center gap-4">
+                <div data-id="134" class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <i data-id="135" data-lucide="mail" class="w-5 h-5 text-accent"></i>
+                </div>
+                <span data-id="136" class="text-dark-text text-[15px]">info@dushtechsystems.com</span>
+              </div>
+              <div data-id="137" class="flex items-center gap-4">
+                <div data-id="138" class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <i data-id="139" data-lucide="globe" class="w-5 h-5 text-accent"></i>
+                </div>
+                <span data-id="140" class="text-dark-text text-[15px]">www.dushtechsystems.com</span>
+              </div>
+            </div>
+
+            <!-- Social Icons -->
+            <div data-id="141" class="flex gap-3">
+              <a data-id="142" href="#" id="social-linkedin-w1x2" class="w-11 h-11 rounded-full bg-navy-800 flex items-center justify-center hover:bg-accent transition-colors" aria-label="LinkedIn">
+                <i data-id="143" data-lucide="linkedin" class="w-5 h-5 text-white"></i>
+              </a>
+              <a data-id="144" href="#" id="social-twitter-y3z4" class="w-11 h-11 rounded-full bg-navy-800 flex items-center justify-center hover:bg-accent transition-colors" aria-label="Twitter / X">
+                <i data-id="145" data-lucide="twitter" class="w-5 h-5 text-white"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Contact Form -->
+          <div data-id="146" id="contact-form-wrap-a5b6" class="flex-1 fade-in-up">
+            <form data-id="147" id="contact-form-c7d8" class="bg-white rounded-xl shadow-sm p-6 md:p-8 space-y-5">
+              <!-- Name -->
+              <div data-id="148">
+                <label data-id="149" for="form-name" class="block text-dark-text text-sm font-semibold mb-1.5">Full Name</label>
+                <input data-id="150" type="text" id="form-name" class="form-input w-full bg-white text-navy-800 text-base rounded-lg px-4 py-3" placeholder="Your full name" required>
+              </div>
+              <!-- Email -->
+              <div data-id="151">
+                <label data-id="152" for="form-email" class="block text-dark-text text-sm font-semibold mb-1.5">Email Address</label>
+                <input data-id="153" type="email" id="form-email" class="form-input w-full bg-white text-navy-800 text-base rounded-lg px-4 py-3" placeholder="you@company.com" required>
+              </div>
+              <!-- Phone -->
+              <div data-id="154">
+                <label data-id="155" for="form-phone" class="block text-dark-text text-sm font-semibold mb-1.5">Phone Number</label>
+                <input data-id="156" type="tel" id="form-phone" class="form-input w-full bg-white text-navy-800 text-base rounded-lg px-4 py-3" placeholder="(555) 000-0000">
+              </div>
+              <!-- Service Interest Dropdown -->
+              <div data-id="157">
+                <label data-id="158" for="form-service" class="block text-dark-text text-sm font-semibold mb-1.5">Service Interest</label>
+                <select data-id="159" id="form-service" class="form-input w-full bg-white text-navy-800 text-base rounded-lg px-4 py-3 cursor-pointer">
+                  <option data-id="160" value="">Select a service</option>
+                  <option data-id="161" value="data-center">Data Center Solutions</option>
+                  <option data-id="162" value="networking">Enterprise Networking</option>
+                  <option data-id="163" value="cloud">Cloud &amp; Virtualization</option>
+                  <option data-id="164" value="cybersecurity">Cybersecurity Services</option>
+                  <option data-id="165" value="unified-comms">Unified Communications</option>
+                  <option data-id="166" value="managed-it">Managed IT Services</option>
+                  <option data-id="167" value="other">Other</option>
+                </select>
+              </div>
+              <!-- Message -->
+              <div data-id="168">
+                <label data-id="169" for="form-message" class="block text-dark-text text-sm font-semibold mb-1.5">Message</label>
+                <textarea data-id="170" id="form-message" rows="4" class="form-input w-full bg-white text-navy-800 text-base rounded-lg px-4 py-3 resize-vertical" placeholder="Tell us about your project or needs..."></textarea>
+              </div>
+              <!-- Submit Button -->
+              <button data-id="171" type="submit" id="form-submit-e9f0" class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-4 rounded-lg transition-colors text-base min-h-[44px] cursor-pointer">
+                Send Message
+              </button>
+            </form>
+
+            <!-- Success Message (hidden by default) -->
+            <div data-id="172" id="form-success-g1h2" class="hidden mt-6 bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+              <div data-id="173" class="text-green-600 mb-2">
+                <i data-id="174" data-lucide="check-circle" class="w-10 h-10 mx-auto"></i>
+              </div>
+              <p data-id="175" class="text-green-800 font-bold text-lg">Thank you!</p>
+              <p data-id="176" class="text-green-700 text-sm mt-1">We'll be in touch soon. A specialist will respond within one business day.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer data-id="177" id="footer-i3j4" class="bg-[#0a1628] pt-14 pb-6 px-4 md:px-6">
+      <div data-id="178" class="max-w-7xl mx-auto">
+        <!-- Footer Top: 3 Columns -->
+        <div data-id="179" class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+
+          <!-- Column 1: Brand -->
+          <div data-id="180">
+            <p data-id="181" class="text-[20px] font-bold mb-3">
+              <span data-id="182" class="text-white">Dush</span><span data-id="183" class="text-accent ml-1">Tech Systems</span>
+            </p>
+            <p data-id="184" class="text-white/50 text-sm leading-relaxed mb-4">Enterprise Technology for a Connected World</p>
+            <p data-id="185" class="text-white/30 text-xs">&copy; 2026 Dush Tech Systems. All rights reserved.</p>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div data-id="186">
+            <h4 data-id="187" class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Quick Links</h4>
+            <ul data-id="188" class="space-y-2.5">
+              <li data-id="189"><a data-id="190" href="#home" class="text-white/50 hover:text-accent text-sm transition-colors">Home</a></li>
+              <li data-id="191"><a data-id="192" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Services</a></li>
+              <li data-id="193"><a data-id="194" href="#about" class="text-white/50 hover:text-accent text-sm transition-colors">About</a></li>
+              <li data-id="195"><a data-id="196" href="#whyus" class="text-white/50 hover:text-accent text-sm transition-colors">Why Us</a></li>
+              <li data-id="197"><a data-id="198" href="#contact" class="text-white/50 hover:text-accent text-sm transition-colors">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Services -->
+          <div data-id="199">
+            <h4 data-id="200" class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Services</h4>
+            <ul data-id="201" class="space-y-2.5">
+              <li data-id="202"><a data-id="203" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Data Center</a></li>
+              <li data-id="204"><a data-id="205" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Networking</a></li>
+              <li data-id="206"><a data-id="207" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Cloud</a></li>
+              <li data-id="208"><a data-id="209" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Cybersecurity</a></li>
+              <li data-id="210"><a data-id="211" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Unified Comms</a></li>
+              <li data-id="212"><a data-id="213" href="#services" class="text-white/50 hover:text-accent text-sm transition-colors">Managed IT</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div data-id="214" class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p data-id="215" class="text-white/30 text-xs">www.dushtechsystems.com &nbsp;|&nbsp; Dallas–Fort Worth, TX</p>
+          <p data-id="216" class="text-white/30 text-xs">Made by Copilot</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT — All Interactive Behavior ===== -->
+    <script>
+      // ------- LUCIDE ICONS INITIALIZATION (guarded) -------
+      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+
+      // ------- MOBILE MENU TOGGLE -------
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn-k4v8');
+      const mobileMenu = document.getElementById('mobile-menu-r2w6');
+      const mobileMenuClose = document.getElementById('mobile-menu-close-j5n3');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      // Open mobile menu
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          mobileMenu.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+
+      // Close mobile menu
+      function closeMobileMenu() {
+        mobileMenu.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+      }
+
+      // Close menu when a mobile nav link is clicked
+      mobileNavLinks.forEach(function(link) {
+        link.addEventListener('click', closeMobileMenu);
+      });
+
+      // ------- STICKY NAV — Shadow on Scroll -------
+      const navbar = document.getElementById('navbar-h7k2');
+
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+          navbar.classList.add('nav-scrolled');
+        } else {
+          navbar.classList.remove('nav-scrolled');
+        }
+      });
+
+      // ------- ACTIVE NAV HIGHLIGHT — IntersectionObserver -------
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('#desktop-nav-m3p5 .nav-link');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0,
+      };
+
+      const sectionObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            const activeId = entry.target.id;
+            navLinks.forEach(function(link) {
+              link.classList.remove('nav-link-active');
+              if (link.getAttribute('href') === '#' + activeId) {
+                link.classList.add('nav-link-active');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(function(section) {
+        sectionObserver.observe(section);
+      });
+
+      // ------- FADE-IN ANIMATION ON SCROLL — IntersectionObserver -------
+      const fadeElements = document.querySelectorAll('.fade-in-up');
+
+      const fadeObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1,
+      });
+
+      fadeElements.forEach(function(el) {
+        fadeObserver.observe(el);
+      });
+
+      // ------- CONTACT FORM SUBMISSION -------
+      const contactForm = document.getElementById('contact-form-c7d8');
+      const formSuccess = document.getElementById('form-success-g1h2');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          // Hide form, show success message
+          contactForm.style.display = 'none';
+          formSuccess.classList.remove('hidden');
+
+          // Re-create Lucide icons for the success message check-circle
+          if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+          }
+
+          // Scroll the success message into view
+          formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+    </script>
+  </body>
+</html>
